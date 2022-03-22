@@ -1,5 +1,5 @@
-edad_1;edad_2;edad_3;Hombres;Mujeres
-De 16 a 29 años;De 16 a 29;16_29;4,5;6,1
-De 30 a 44 años;De 30 a 44;30_44;6,7;8,3
-De 45 a 64 años;De 45 a 64;45_64;12,4;20,3
-De 65 y más años;65 y más;65mas;13,6;14
+edad_1,edad_2,edad_3,Hombres,Mujeres
+De 16 a 29 aÃ±os,De 16 a 29,16_29,4.5,6.1
+De 30 a 44 aÃ±os,De 30 a 44,30_44,6.7,8.3
+De 45 a 64 aÃ±os,De 45 a 64,45_64,12.4,20.3
+De 65 y mÃ¡s aÃ±os,65 y mÃ¡s,65mas,13.6,14

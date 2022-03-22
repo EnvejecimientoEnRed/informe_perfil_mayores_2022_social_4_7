@@ -23,16 +23,80 @@ export function initChart(iframe) {
     //Lectura de datos
     d3.csv('https://raw.githubusercontent.com/CarlosMunozDiazCSIC/informe_perfil_mayores_2022_social_4_7/main/data/cuidadores_personas_dependientes_ine_v2.csv', function(error,data) {
         if (error) throw error;
-        console.log(data);
+        
+        let margin = {top: 10, right: 10, bottom: 20, left: 30},
+            width = document.getElementById('chart').clientWidth - margin.left - margin.right,
+            height = document.getElementById('chart').clientHeight - margin.top - margin.bottom;
+
+        let svg = d3.select("#chart")
+            .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        let edades = d3.map(data, function(d){return(d.edad_2)}).keys();
+        let tipos = ['Mujeres', 'Hombres'];
+
+        let x = d3.scaleBand()
+            .domain(edades)
+            .range([0, width])
+            .padding([0.35]);
+
+        svg.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x));
+
+        let y = d3.scaleLinear()
+            .domain([0, 25])
+            .range([ height, 0 ]);
+        svg.append("g")
+            .call(d3.axisLeft(y));
+
+        let xSubgroup = d3.scaleBand()
+            .domain(tipos)
+            .range([0, x.bandwidth()])
+            .padding([0]);
+
+        let color = d3.scaleOrdinal()
+            .domain(tipos)
+            .range([COLOR_PRIMARY_1, COLOR_COMP_1]);
 
         function init() {
-
+            svg.append("g")
+                .selectAll("g")
+                .data(data)
+                .enter()
+                .append("g")
+                .attr("transform", function(d) { return "translate(" + x(d.edad_2) + ",0)"; })
+                .selectAll("rect")
+                .data(function(d) { return tipos.map(function(key) { return {key: key, value: d[key]}; }); })
+                .enter()
+                .append("rect")
+                .attr('class', 'prueba')
+                .attr("x", function(d) { return xSubgroup(d.key); })
+                .attr("width", xSubgroup.bandwidth())
+                .attr("fill", function(d) { return color(d.key); })
+                .attr("y", function(d) { return y(0); })                
+                .attr("height", function(d) { return height - y(0); })
+                .transition()
+                .duration(2000)
+                .attr("y", function(d) { return y(d.value); })                
+                .attr("height", function(d) { return height - y(d.value); });
         }
 
         function animateChart() {
-
+            svg.selectAll(".prueba")
+                .attr("x", function(d) { return xSubgroup(d.key); })
+                .attr("width", xSubgroup.bandwidth())
+                .attr("fill", function(d) { return color(d.key); })
+                .attr("y", function(d) { return y(0); })                
+                .attr("height", function(d) { return height - y(0); })
+                .transition()
+                .duration(2000)
+                .attr("y", function(d) { return y(d.value); })                
+                .attr("height", function(d) { return height - y(d.value); });
         }
-
 
         /////
         /////
