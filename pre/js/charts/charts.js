@@ -36,7 +36,7 @@ export function initChart(iframe) {
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         let edades = d3.map(data, function(d){return(d.edad_2)}).keys();
-        let tipos = ['Mujeres', 'Hombres'];
+        let tipos = ['Hombres', 'Mujeres'];
 
         let x = d3.scaleBand()
             .domain(edades)
@@ -123,13 +123,16 @@ export function initChart(iframe) {
         setRRSSLinks('cuidadores_de_dependientes');
 
         //Captura de pantalla de la visualización
-        setChartCanvas();
-        setCustomCanvas();
+        //setChartCanvas();
+        setTimeout(() => {
+            setCustomCanvas();
+        }, 5000);
+        
 
         let pngDownload = document.getElementById('pngImage');
 
         pngDownload.addEventListener('click', function(){
-            setChartCanvasImage('cuidadores_de_dependientes');
+            //setChartCanvasImage('cuidadores_de_dependientes');
             setChartCustomCanvasImage('cuidadores_de_dependientes');
         });
 
