@@ -28,7 +28,7 @@ export function initChart(iframe) {
             .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        let edades = d3.map(data, function(d){return(d.edad_3)}).keys();
+        let edades = d3.map(data, function(d){return(d.edad_2)}).keys();
         let tipos = ['Hombres', 'Mujeres'];
 
         let x = d3.scaleBand()
@@ -85,7 +85,7 @@ export function initChart(iframe) {
                 .data(data)
                 .enter()
                 .append("g")
-                .attr("transform", function(d) { return "translate(" + x(d.edad_3) + ",0)"; })
+                .attr("transform", function(d) { return "translate(" + x(d.edad_2) + ",0)"; })
                 .attr('class', function(d) {
                     return 'grupo-' + d.edad_3;
                 })
@@ -117,8 +117,8 @@ export function initChart(iframe) {
                     //Tooltip > Recuperamos el año de referencia
                     let currentEdad = this.parentNode.classList[0];
 
-                    let html = '<p class="chart__tooltip--title">' + currentEdad.split('_')[1] + '</p>' + 
-                            '<p class="chart__tooltip--text">Un <b>' + numberWithCommas3(parseFloat(d.value).toFixed(1)) + '%</b> de <b>' + d.key.split('_')[0].toLowerCase() + '</b> en este grupo de edad son cuidadores de personas dependientes</p>';
+                    let html = '<p class="chart__tooltip--title">Grupo edad: ' + currentEdad.split('-')[1] + '</p>' + 
+                            '<p class="chart__tooltip--text">Un <b>' + numberWithCommas3(parseFloat(d.value).toFixed(1)) + '%</b> de <b>' + d.key.split('_')[0].toLowerCase() + '</b> en este grupo de edad cuidan de personas dependientes</p>';
                     
                     tooltip.html(html);
 
