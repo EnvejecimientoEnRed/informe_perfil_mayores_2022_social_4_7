@@ -12,7 +12,7 @@ const COLOR_PRIMARY_1 = '#F8B05C',
 COLOR_COMP_1 = '#528FAD';
 let tooltip = d3.select('#tooltip');
 
-export function initChart(iframe) {
+export function initChart() {
     //Lectura de datos
     d3.csv('https://raw.githubusercontent.com/CarlosMunozDiazCSIC/informe_perfil_mayores_2022_social_4_7/main/data/cuidadores_personas_dependientes_ine_v2.csv', function(error,data) {
         if (error) throw error;
@@ -36,15 +36,15 @@ export function initChart(iframe) {
             .range([0, width])
             .padding(0.5);
 
-            let xAxis = function(svg) {
-                svg.call(d3.axisBottom(x));
-                svg.call(function(g){g.selectAll('.tick line').remove()});
-                svg.call(function(g){g.select('.domain').remove()});
-            }
-    
-            svg.append("g")
-                .attr("transform", "translate(0," + height + ")")
-                .call(xAxis);
+        let xAxis = function(svg) {
+            svg.call(d3.axisBottom(x));
+            svg.call(function(g){g.selectAll('.tick line').remove()});
+            svg.call(function(g){g.select('.domain').remove()});
+        }
+
+        svg.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(xAxis);
 
         let y = d3.scaleLinear()
             .domain([0, 25])
@@ -166,6 +166,10 @@ export function initChart(iframe) {
         //Animación del gráfico
         document.getElementById('replay').addEventListener('click', function() {
             animateChart();
+
+            setTimeout(() => {
+                setChartCanvas();
+            }, 4000);
         });
 
         /////
@@ -181,8 +185,9 @@ export function initChart(iframe) {
         setRRSSLinks('cuidadores_de_dependientes');
 
         //Captura de pantalla de la visualización
-        setChartCanvas();
-        
+        setTimeout(() => {
+            setChartCanvas();
+        }, 4000);        
 
         let pngDownload = document.getElementById('pngImage');
 
@@ -191,8 +196,6 @@ export function initChart(iframe) {
         });
 
         //Altura del frame
-        setChartHeight(iframe);
-    });
-
-    
+        setChartHeight();
+    });    
 }
